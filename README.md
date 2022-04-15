@@ -1,4 +1,4 @@
-# Bell
+# 🛎 Bell
 
 A tool to send you alerts from your AWS instances
 
