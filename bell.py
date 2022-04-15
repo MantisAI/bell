@@ -26,7 +26,7 @@ def bell(webhook_url):
     logger.debug(f"ec2 instance status: {status}")
 
     response = requests.post(
-        webhook_url, json={"text": f":bell: {ec2_instance_name} is {status}"}
+        webhook_url, json={"text": f":bellhop_bell: {ec2_instance_name} is {status}"}
     )
     logger.debug(f"slack response code: {response.status_code}")
 
