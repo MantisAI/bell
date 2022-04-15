@@ -18,8 +18,24 @@ bell SLACK_WEBHOOK
 
 You can read how to setup a slack webbook [here](https://api.slack.com/incoming-webhooks)
 
-The way we use this at Mantis is to setup a cron job at the instance to send
-information about the status of the instance in our slack alerts channel.
+# Cron
+
+This tool is intended to be used with a scheduler like cron. Here is an example cron 
+command which sends an alert every 2 hours
+
+```
+0 */2 * * * bell WEBHOOK_URL
+```
+
+In order for this to work cron needs to have access to both bell, python packages and AWS
+credentials. For this reason we recommend you install a cron job under your user account
+and not root, otherwise you might need to install the tool with sudo and ensure root has
+access to AWS credentials.
+
+Even in that case as it turns out cron has a different more minimal PATH
+than what you see in the terminal if you run `echo $PATH`. For that reason, you should
+probably define the same PATH in your cron job as the one you see when you test the 
+tool.
 
 # CLI
 
