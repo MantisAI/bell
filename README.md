@@ -7,7 +7,7 @@ A tool to send you alerts from your AWS instances
 Install
 
 ```
-pip install ...
+pip install git+https://github.com/MantisAI/bell.git
 ```
 
 
