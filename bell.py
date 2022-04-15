@@ -18,14 +18,16 @@ def bell(webhook_url):
         ]
     )
     ec2_instance_name = response["Tags"][0]["Value"]
-    logger.debug(ec2_instance_name)
+    logger.debug(f"ec2 instance name: {ec2_instance_name}")
     
     response = ec2.describe_instance_status(
         InstanceIds=[instance_id]
     )
     status = response["InstanceStatuses"][0]["InstanceState"]["Name"]
-    logger.debug(status)
-    requests.post(webhook_url, data={"text": f":bell: {ec2_instance_name} is {status}"})
+    logger.debug(f"ec2 instance status: {status}")
+    
+    response = requests.post(webhook_url, json={"text": f":bell: {ec2_instance_name} is {status}"})
+    logger.debug(f"slack response code: {response.status_code}")
 
 if __name__ == "__main__":
     app()
