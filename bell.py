@@ -7,7 +7,8 @@ import requests
 import boto3
 
 
-BELL_MODE = os.environ["BELL_MODE"]
+BELL_MODE = os.environ.get("BELL_MODE")
+
 
 def get_status_message():
     if BELL_MODE == "LOCAL":
@@ -37,9 +38,7 @@ def send_slack_message(message):
     if BELL_MODE == "LOCAL":
         return
 
-    response = requests.post(
-        webhook_url, json={"text": message}
-    )
+    response = requests.post(webhook_url, json={"text": message})
     logger.debug(f"slack response code: {response.status_code}")
 
 
