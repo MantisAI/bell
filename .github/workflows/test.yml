@@ -11,6 +11,4 @@ jobs:
       - name: "Install package"
         run: pip install .[test]
       - name: "Run tests"
-        env:
-          BELL_MODE: "LOCAL"
         run: pytest

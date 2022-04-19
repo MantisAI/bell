@@ -5,16 +5,21 @@ import pytest
 from bell import bell
 
 
-def test_bell():
-    bell("slack webhook url")
+@pytest.fixture
+def slack_webhook_url():
+    return "http://www.slack.com"
 
 
-def test_bell_command():
+def test_bell(slack_webhook_url):
+    bell(slack_webhook_url)
+
+
+def test_bell_command(slack_webhook_url):
     command_args = "python -c \"print('hello')\"".split()
-    bell("slack webhook url", *command_args)
+    bell(slack_webhook_url, *command_args)
 
 
-def test_bell_bad_command():
+def test_bell_bad_command(slack_webhook_url):
     command_args = """ python -c "print('hello' """.split()
     with pytest.raises(subprocess.CalledProcessError):
-        bell("slack webhook url", *command_args)
+        bell(slack_webhook_url, *command_args)
