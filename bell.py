@@ -59,14 +59,21 @@ def bell(webhook_url, *command):
     if command:
         logger.debug(f"command: {command}")
         try:
-            send_slack_message(webhook_url, "command started")
+            send_slack_message(
+                webhook_url,
+                f":bellhop_bell: command `{' '.join(command)}` started :rocket:",
+            )
             subprocess.run(command, check=True)
         except subprocess.CalledProcessError:
             logger.error("command failed")
-            send_slack_message(webhook_url, "command failed")
+            send_slack_message(
+                webhook_url, f":bellhop_bell: command `{' '.join(command)}` failed :x:"
+            )
             raise
 
-        send_slack_message(webhook_url, "command finished")
+        send_slack_message(
+            webhook_url, f":bellhop_bell: command `{' '.join(command)}` finished :boom:"
+        )
     else:
         instance_status = get_status_message()
         send_slack_message(webhook_url, instance_status)
