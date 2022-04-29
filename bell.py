@@ -18,12 +18,12 @@ def get_status_message():
         response = urllib.request.urlopen(
             "http://169.254.169.254/latest/meta-data/instance-id", timeout=5
         )
-        instance_id = response.read()
+        instance_id = response.read().decode("utf-8")
 
         response = urllib.request.urlopen(
             "http://169.254.169.254/latest/meta-data/public-hostname", timeout=5
         )
-        public_hostname = response.read()
+        public_hostname = response.read().decode("utf-8")
     except urllib.request.URLError:
         logger.debug(
             "Metadata request timed out. You are probably not in an AWS instance."
