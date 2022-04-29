@@ -7,24 +7,38 @@ A tool to send you alerts from your AWS instances
 Install
 
 ```
-pip install git+https://github.com/MantisAI/bell.git
+pip install git+https://github.com/MantisAI/bell.git@main
 ```
 
-Use in an EC2 instance
+Use bell 🛎  to get alerts that your AWS instance is on
 
 ```
-bell SLACK_WEBHOOK
+bell --webhook-url SLACK_WEBHOOK_URL
 ```
+
+Use bell 🛎  to get alerts about when a command starts, fails or finishes
+
+```
+export SLACK_WEBHOOK_URL=xxx
+
+bell python -c "print('hello')"
+```
+
+Note that you can pass the slack webhook URL either as a command line parameter
+`--webhook-url` or as an environment variable `SLACK_WEBHOOK_URL`
 
 You can read how to setup a slack webbook [here](https://api.slack.com/incoming-webhooks)
 
+
 # Cron
 
-This tool is intended to be used with a scheduler like cron. Here is an example cron
+This tool works well with a scheduler like cron. Here is an example cron
 command which sends an alert every 2 hours
 
 ```
-0 */2 * * * bell WEBHOOK_URL
+SLACK_WEBHOOK_URL=xxx
+
+0 */2 * * * bell
 ```
 
 Note that cron's environment is different to your user or root environment. See troubleshooting
@@ -33,13 +47,12 @@ if you have problems setting up bell to work with cron.
 # CLI
 
 ```
-Usage: bell [OPTIONS] WEBHOOK_URL
+usage: bell [-h] [--webhook-url WEBHOOK_URL]
 
-Arguments:
-  WEBHOOK_URL  [required]
-
-Options:
-  --help                          Show this message and exit.
+optional arguments:
+  -h, --help            show this help message and exit
+  --webhook-url WEBHOOK_URL
+                        incoming slack webhook url
 ```
 
 # Troubleshooting
