@@ -1,13 +1,17 @@
 from socket import timeout
 import urllib.request
 import subprocess
+import logging
 import argparse
 import json
 import sys
 import os
 
-from loguru import logger
-import boto3
+logging.basicConfig(
+    format="%(asctime)s | %(levelname)s | %(funcName)20s:%(lineno)s - %(message)s",
+    level=os.environ.get("LOGGING_LEVEL", logging.INFO),
+)
+logger = logging.getLogger(__name__)
 
 
 def get_status_message():
@@ -15,12 +19,22 @@ def get_status_message():
         response = urllib.request.urlopen(
             "http://169.254.169.254/latest/meta-data/instance-id", timeout=5
         )
-        instance_id = response.read()
+        instance_id = response.read().decode("utf-8")
+
+        response = urllib.request.urlopen(
+            "http://169.254.169.254/latest/meta-data/public-hostname", timeout=5
+        )
+        public_hostname = response.read().decode("utf-8")
     except urllib.request.URLError:
         logger.debug(
             "Metadata request timed out. You are probably not in an AWS instance."
         )
         return ":bellhop_bell: local mode"
+
+    try:
+        import boto3
+    except ImportError:
+        return f":bellhop_bell: {public_hostname} is running"
 
     ec2 = boto3.client("ec2")
     response = ec2.describe_tags(
