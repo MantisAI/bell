@@ -8,7 +8,8 @@ import sys
 import os
 
 logging.basicConfig(
-    format="%(asctime)s | %(levelname)s | %(funcName)20s:%(lineno)s - %(message)s"
+    format="%(asctime)s | %(levelname)s | %(funcName)20s:%(lineno)s - %(message)s",
+    level=os.environ.get("LOGGING_LEVEL", logging.INFO),
 )
 logger = logging.getLogger(__name__)
 
