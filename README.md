@@ -57,6 +57,14 @@ optional arguments:
 
 # Troubleshooting
 
+## Logs
+
+By default bell sets the logging level at INFO. For debugging purposes, it is more helpful
+to set it at DEBUG. You can do that via the environment variable `LOGGING_LEVEL` by running
+```
+export LOGGING_LEVEL=DEBUG
+```
+
 ## Bell works when run manually but not through cron
 
 In order for cron to work it needs to have access to both bell, python packages and AWS
