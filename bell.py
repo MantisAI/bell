@@ -73,10 +73,11 @@ def bell(webhook_url, capture_output=False, *command):
     if command:
         logger.debug(f"command: {command}")
         try:
-            send_slack_message(
-                webhook_url,
-                f":bellhop_bell: command `{' '.join(command)}` started :rocket:",
-            )
+            if not capture_output:
+                send_slack_message(
+                    webhook_url,
+                    f":bellhop_bell: command `{' '.join(command)}` started :rocket:",
+                )
 
             # Capture the result of the process so we can use it later
 
@@ -95,9 +96,10 @@ def bell(webhook_url, capture_output=False, *command):
             )
             raise
 
-        send_slack_message(
-            webhook_url, f":bellhop_bell: command `{' '.join(command)}` finished :boom:"
-        )
+        if not capture_output:
+            send_slack_message(
+                webhook_url, f":bellhop_bell: command `{' '.join(command)}` finished :boom:"
+            )
     else:
         instance_status = get_status_message()
         send_slack_message(webhook_url, instance_status)
