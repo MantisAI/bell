@@ -1,6 +1,7 @@
 # Venv, direnv
 .env
 .envrc
+/venv
 
 # Python cache and eggs
 **egg-info
