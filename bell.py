@@ -69,7 +69,7 @@ def send_slack_message(webhook_url, message):
         )
 
 
-def bell(webhook_url, *command):
+def bell(webhook_url, capture_output=False, *command):
     if command:
         logger.debug(f"command: {command}")
         try:
@@ -77,11 +77,21 @@ def bell(webhook_url, *command):
                 webhook_url,
                 f":bellhop_bell: command `{' '.join(command)}` started :rocket:",
             )
-            subprocess.run(command, check=True)
+
+            # Capture the result of the process so we can use it later
+
+            result = subprocess.run(command, check=True, capture_output=capture_output)
+
+            if capture_output:
+                send_slack_message(
+                    webhook_url,
+                    f"```{result.stdout.decode('utf-8')}```",
+                )
+
         except subprocess.CalledProcessError:
             logger.error("command failed")
             send_slack_message(
-                webhook_url, f":bellhop_bell: command `{' '.join(command)}` failed :x:"
+                webhook_url, f":bellhop_bell: command `{' '.join(command.stdout)}` failed :x:"
             )
             raise
 
@@ -100,6 +110,12 @@ def cli():
         default=os.environ.get("SLACK_WEBHOOK_URL"),
         help="incoming slack webhook url",
     )
+    argument_parser.add_argument(
+        "--capture-output",
+        action="store_true",
+        help="capture output of command",
+        default=False,
+    )
 
     args, command_args = argument_parser.parse_known_args()
 
@@ -109,7 +125,7 @@ def cli():
         )
         sys.exit(1)
 
-    bell(args.webhook_url, *command_args)
+    bell(args.webhook_url, args.capture_output, *command_args)
 
 
 if __name__ == "__main__":
