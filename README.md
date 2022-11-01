@@ -31,7 +31,7 @@ You can capture the output of the process by passing the `--capture-output`
 option. This will then get printed to slack.
 
 ```
-bell python -c "print('hello')"
+bell --cpature-output python -c "print('hello')"
 ```
 
 The results will be printed in slack as:
