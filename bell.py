@@ -96,6 +96,13 @@ def bell(webhook_url, capture_output=False, *command):
             )
             raise
 
+        except AttributeError:
+            logger.error("command failed")
+            send_slack_message(
+                webhook_url, f":bellhop_bell: command `{' '.join(command.stdout)}` failed :x:"
+            )
+            raise
+
         if not capture_output:
             send_slack_message(
                 webhook_url, f":bellhop_bell: command `{' '.join(command)}` finished :boom:"
