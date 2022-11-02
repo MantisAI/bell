@@ -27,6 +27,22 @@ bell python -c "print('hello')"
 Note that you can pass the slack webhook URL either as a command line parameter
 `--webhook-url` or as an environment variable `SLACK_WEBHOOK_URL`
 
+You can capture the output of the process by passing the `--capture-output`
+option. This will then get printed to slack.
+
+```
+bell --cpature-output python -c "print('hello')"
+```
+
+The results will be printed in slack as:
+
+:bellhop_bell: command python -c print('hello') started :rocket:
+```
+hello
+```
+:bellhop_bell: command python -c print('hello') finished :boom:
+
+
 You can read how to setup a slack webbook [here](https://api.slack.com/incoming-webhooks)
 
 
